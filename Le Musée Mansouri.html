@@ -1,0 +1,435 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Le Musée Mansouri</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a museum visit — a sticky "plan du musée", six numbered rooms, each exhibit presented with a cartel (museum label). */
+:root {
+  --wall: #e8e6e0;          /* gallery wall, stone grey */
+  --cartel: #fbfaf6;        /* label card */
+  --ink: #1b1f1d;
+  --ink-soft: #55605a;
+  --brass: #8a6a2a;
+  --green: #27463b;         /* gallery green bands */
+  --green-ink: #e8e3d4;
+  --line: #cfcbc0;
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --wall: #15221c; --cartel: #1e2f27; --ink: #ece7da; --ink-soft: #a9b1aa;
+    --brass: #d2ab5c; --green: #0e1915; --green-ink: #ece7da; --line: #35483f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --wall: #15221c; --cartel: #1e2f27; --ink: #ece7da; --ink-soft: #a9b1aa;
+  --brass: #d2ab5c; --green: #0e1915; --green-ink: #ece7da; --line: #35483f;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--wall); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--green); }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--brass); }
+
+/* Plan du musée (nav) */
+.plan { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--green); color: var(--green-ink); border-bottom: 1px solid var(--brass); }
+.plan .wrap { display: flex; align-items: center; gap: 18px; padding-block: 10px; overflow-x: auto; scrollbar-width: none; }
+.plan .wrap::-webkit-scrollbar { display: none; }
+.plan .brand { font-family: var(--display); font-size: 18px; white-space: nowrap; letter-spacing: .02em; }
+.plan ul { display: flex; gap: 4px; margin-left: auto; }
+.plan a { text-decoration: none; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; white-space: nowrap; padding: 6px 10px; border-radius: 2px; opacity: .85; }
+.plan a:hover, .plan a:focus-visible { opacity: 1; background: rgba(255,255,255,.08); outline: none; }
+.plan a b { color: var(--brass); font-weight: 500; margin-right: 6px; }
+
+/* Rooms */
+.room { padding-block: 64px; border-bottom: 1px solid var(--line); }
+.room-head { display: grid; grid-template-columns: auto 1fr; gap: 20px 28px; align-items: end; margin-bottom: 40px; }
+.room-no { font-family: var(--display); font-size: 64px; line-height: .9; color: var(--brass); }
+.room-head h2 { font-size: clamp(30px, 4.5vw, 46px); line-height: 1.05; }
+.room-head p { color: var(--ink-soft); max-width: 60ch; margin-top: 8px; }
+
+/* Cartel: the museum label */
+.cartel { background: var(--cartel); border: 1px solid var(--line); border-top: 3px solid var(--brass); padding: 18px 20px; min-width: 0; }
+.cartel h3 { font-size: 22px; line-height: 1.15; }
+.cartel .meta { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); margin-top: 4px; letter-spacing: .03em; }
+.cartel .desc { margin-top: 12px; max-width: 65ch; }
+.cartel ul.points { margin-top: 12px; display: grid; gap: 8px; max-width: 65ch; }
+.cartel ul.points li { padding-left: 16px; position: relative; }
+.cartel ul.points li::before { content: "—"; position: absolute; left: 0; color: var(--brass); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.tags span { font-family: var(--mono); font-size: 11.5px; letter-spacing: .03em; border: 1px solid var(--line); padding: 3px 8px; border-radius: 2px; color: var(--ink-soft); }
+.grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+/* Salle 1 — Hall d'entrée */
+.hall { background: var(--green); color: var(--green-ink); border-bottom: 1px solid var(--brass); }
+.hall .wrap { padding-block: 72px 56px; display: grid; gap: 36px; grid-template-columns: 1.3fr 1fr; align-items: end; }
+.hall .eyebrow { color: var(--brass); }
+.hall h1 { font-size: clamp(44px, 8vw, 92px); line-height: .95; margin-top: 14px; }
+.hall h1 em { font-style: italic; font-weight: 400; }
+.hall .sub { margin-top: 20px; font-size: 18px; max-width: 48ch; opacity: .9; }
+.plaque { border: 1px solid var(--brass); padding: 22px 24px; font-size: 15px; display: grid; gap: 10px; }
+.plaque dt { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--brass); }
+.plaque dd { margin: 2px 0 0; }
+.plaque dl { margin: 0; display: grid; gap: 12px; }
+
+/* Salle 2 — Mindset */
+.frames { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 26px 22px; padding-block: 6px; }
+@media (max-width: 720px) { .frames { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; } }
+/* Cadre doré : moulure (li), passe-partout + toile (span) */
+.frame { aspect-ratio: 4 / 3; max-width: 100%; min-width: 0; display: grid; padding: 10px; border-radius: 2px;
+  background: linear-gradient(135deg, #e2c47c 0%, #a3802f 30%, #d9b862 52%, #8a6a2a 75%, #c9a658 100%);
+  box-shadow: 0 14px 22px -12px rgba(0,0,0,.55), 0 2px 3px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.45), inset 0 0 0 3px rgba(70,48,12,.45), inset 0 0 0 4px rgba(255,235,180,.35); }
+.frame span { display: grid; place-items: center; text-align: center; min-width: 0; padding: 10px 8px; background: var(--cartel);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.35), inset 0 3px 7px rgba(0,0,0,.28), inset 0 0 0 9px var(--cartel), inset 0 0 0 10px var(--line);
+  font-family: var(--display); font-size: clamp(16px, 1.9vw, 21px); line-height: 1.1; overflow-wrap: anywhere; hyphens: manual; }
+.domaines { margin-top: 36px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.domaines li { border-left: 2px solid var(--brass); padding: 4px 0 4px 14px; }
+
+/* Salle 4 — Cabinet */
+.vitrine { background: var(--cartel); border: 1px solid var(--line); padding: 16px 18px; min-width: 0; }
+.vitrine h3 { font-size: 15px; font-family: var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--brass); font-weight: 500; }
+.vitrine p { margin-top: 8px; }
+.cabinet-side { margin-top: 28px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+
+/* Salle 5 — Parcours */
+.ribbon { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; color: var(--ink-soft); border-top: 1px solid var(--brass); padding-top: 8px; margin-bottom: 36px; }
+.oeuvres { display: grid; gap: 22px; }
+.oeuvre { display: grid; grid-template-columns: 150px 1fr; gap: 20px; align-items: start; }
+.oeuvre .when { font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); line-height: 1.6; padding-top: 22px; }
+.oeuvre .when b { display: block; font-family: var(--display); font-size: 30px; font-weight: 400; color: var(--brass); line-height: 1; margin-bottom: 8px; }
+.oeuvre .org { display: block; font-size: 13px; color: var(--ink-soft); margin-top: 6px; }
+
+/* Salle 6 — Boutique */
+.boutique { background: var(--green); color: var(--green-ink); border-bottom: 0; }
+.boutique .cartel { background: transparent; border-color: var(--brass); color: var(--green-ink); }
+.boutique .cartel .meta, .boutique .tags span { color: var(--green-ink); opacity: .8; border-color: rgba(255,255,255,.25); }
+.boutique .room-head p { color: var(--green-ink); opacity: .85; }
+.contact { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.contact a { text-decoration: underline; text-decoration-color: var(--brass); text-underline-offset: 4px; word-break: break-all; }
+.contact .val { font-family: var(--mono); font-size: 14px; margin-top: 8px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.copy { font: inherit; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; background: transparent; color: var(--brass); border: 1px solid var(--brass); padding: 4px 10px; border-radius: 2px; cursor: pointer; }
+.copy:hover, .copy:focus-visible { background: var(--brass); color: var(--green); outline: none; }
+.exit { margin-top: 44px; font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; opacity: .7; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 720px) {
+  .hall .wrap { grid-template-columns: 1fr; }
+  .room { padding-block: 48px; }
+  .room-head { grid-template-columns: 1fr; gap: 6px; }
+  .room-no { font-size: 48px; }
+  .oeuvre { grid-template-columns: 1fr; gap: 8px; }
+  .oeuvre .when { padding-top: 0; display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+  .oeuvre .when b { margin-bottom: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+</style>
+
+<nav class="plan" aria-label="Plan du musée">
+  <div class="wrap">
+    <span class="brand">Le Musée Mansouri</span>
+    <ul>
+      <li><a href="#hall"><b>1</b>Hall d'entrée</a></li>
+      <li><a href="#mindset"><b>2</b>Galerie Mindset</a></li>
+      <li><a href="#craft-ia"><b>3</b>Aile Craft × IA</a></li>
+      <li><a href="#cabinet"><b>4</b>Cabinet des curiosités</a></li>
+      <li><a href="#parcours"><b>5</b>Galerie Parcours</a></li>
+      <li><a href="#boutique"><b>6</b>Boutique</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Salle 1 -->
+<header id="hall" class="hall">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Salle 1 · Hall d'entrée</p>
+      <h1>Abdessamed<br><em>Mansouri</em></h1>
+      <p class="sub">Développeur full stack depuis plus de dix ans, en banque, énergie, assurance et santé. Délégué du tech lead sur sa dernière mission, praticien du TDD et de l'architecture hexagonale, il intègre les agents IA à son quotidien et entretient une veille active sur l'agentique.</p>
+    </div>
+    <aside class="plaque" aria-label="Informations pratiques">
+      <dl>
+        <div><dt>Collection</dt><dd>Java · Spring · Angular · TDD · Développement assisté par IA</dd></div>
+        <div><dt>Période couverte</dt><dd>2015 – aujourd'hui</dd></div>
+        <div><dt>Horaires</dt><dd>Ouvert en permanence, visite libre</dd></div>
+        <div><dt>Localisation</dt><dd>Région parisienne</dd></div>
+      </dl>
+    </aside>
+  </div>
+</header>
+
+<!-- Salle 2 -->
+<section id="mindset" class="room">
+  <div class="wrap">
+    <div class="room-head">
+      <span class="room-no" aria-hidden="true">2</span>
+      <div>
+        <p class="eyebrow">Salle 2</p>
+        <h2>Galerie Mindset</h2>
+        <p>Les principes accrochés au mur avant toute ligne de code.</p>
+      </div>
+    </div>
+    <ul class="frames">
+      <li class="frame"><span>Crafts&shy;manship</span></li>
+      <li class="frame"><span>Agilité</span></li>
+      <li class="frame"><span>Lean</span></li>
+      <li class="frame"><span>Simplicité</span></li>
+      <li class="frame"><span>IA</span></li>
+      <li class="frame"><span>Cost effective</span></li>
+      <li class="frame"><span>Bonnes pratiques</span></li>
+      <li class="frame"><span>Travail en équipe</span></li>
+    </ul>
+    <ul class="domaines">
+      <li><p class="eyebrow">Domaine d'intervention</p><p>Architecture émergente et design évolutif</p></li>
+      <li><p class="eyebrow">Domaine d'intervention</p><p>Pratique du TDD</p></li>
+      <li><p class="eyebrow">Domaine d'intervention</p><p>Mentoring autour des bonnes pratiques</p></li>
+      <li><p class="eyebrow">Domaine d'intervention</p><p>Développement assisté par IA</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- Salle 3 -->
+<section id="craft-ia" class="room">
+  <div class="wrap">
+    <div class="room-head">
+      <span class="room-no" aria-hidden="true">3</span>
+      <div>
+        <p class="eyebrow">Salle 3 · Exposition permanente, enrichie en continu</p>
+        <h2>Aile Craft × IA</h2>
+        <p>Développement assisté par agents IA. Autoformation pratique par katas, centrée sur Claude.</p>
+      </div>
+    </div>
+    <div class="grid">
+      <article class="cartel">
+        <h3>Fonctionnement des agents</h3>
+        <p class="meta">Pièce n° 3.1</p>
+        <p class="desc">Boucle penser → agir → observer → ajuster, choix du modèle selon la tâche (Opus, Sonnet, Haiku), modes plan et auto-edit.</p>
+      </article>
+      <article class="cartel">
+        <h3>Context engineering</h3>
+        <p class="meta">Pièce n° 3.2</p>
+        <p class="desc">Gestion de la fenêtre de contexte, prévention du context rot, chargement à la demande, specs en fichiers plutôt qu'en prompt.</p>
+      </article>
+      <article class="cartel">
+        <h3>Harness engineering</h3>
+        <p class="meta">Pièce n° 3.3</p>
+        <p class="desc">CLAUDE.md hiérarchiques, rules, skills, hooks, sous-agents, intégration des agents en CI/CD.</p>
+      </article>
+      <article class="cartel">
+        <h3>Posture et craft</h3>
+        <p class="meta">Pièce n° 3.4</p>
+        <p class="desc">Explorer → planifier → coder → committer, baby steps et TDD avec l'agent, garde-fous automatiques (linter, typage, tests), review par le diff.</p>
+      </article>
+      <article class="cartel">
+        <h3>Sécurité et écosystème</h3>
+        <p class="meta">Pièce n° 3.5</p>
+        <p class="desc">Sécurité des agents (permissions, maîtrise de leurs actions), écosystème MCP, RAG, embeddings, multi-agents, LLMOps, veille sur les nouveautés Anthropic.</p>
+      </article>
+    </div>
+    <div class="tags">
+      <span>Claude</span><span>Agents IA</span><span>Context engineering</span><span>Harness engineering</span><span>MCP</span><span>RAG</span><span>Embeddings</span><span>LLMOps</span>
+    </div>
+  </div>
+</section>
+
+<!-- Salle 4 -->
+<section id="cabinet" class="room">
+  <div class="wrap">
+    <div class="room-head">
+      <span class="room-no" aria-hidden="true">4</span>
+      <div>
+        <p class="eyebrow">Salle 4</p>
+        <h2>Cabinet des curiosités</h2>
+        <p>L'outillage, rangé par vitrine.</p>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="vitrine"><h3>Langages</h3><p>Java, Kotlin, Python, JavaScript, TypeScript, HTML5, CSS3</p></div>
+      <div class="vitrine"><h3>Back-end</h3><p>Spring 6 (Core, Boot, Data, Batch, Web, REST, Security, Integration, Test), Django</p></div>
+      <div class="vitrine"><h3>Front-end</h3><p>Angular, React, Bootstrap</p></div>
+      <div class="vitrine"><h3>Tests</h3><p>JUnit, Mockito, TDD</p></div>
+      <div class="vitrine"><h3>Bases de données</h3><p>PostgreSQL, Oracle, MySQL</p></div>
+      <div class="vitrine"><h3>Architecture</h3><p>Architecture hexagonale, monolithe modulaire, design patterns</p></div>
+      <div class="vitrine"><h3>Agents IA</h3><p>Claude (skills Superpowers, nWave), Codex</p></div>
+      <div class="vitrine"><h3>Pratiques</h3><p>TDD, agilité, pair programming, monorepo</p></div>
+      <div class="vitrine"><h3>Outillage</h3><p>IntelliJ, VS Code, Git, SVN, Maven, npm</p></div>
+    </div>
+    <div class="cabinet-side">
+      <article class="cartel">
+        <h3>Conférences et meetups</h3>
+        <p class="meta">Communauté Software Crafters</p>
+        <ul class="points">
+          <li>AlpesCraft</li>
+          <li>SoCraTes France, Allemagne et Maroc</li>
+          <li>NewCrafts 2023</li>
+          <li>Coding Dojo Paris et Software Crafters Paris</li>
+        </ul>
+      </article>
+      <article class="cartel">
+        <h3>Formation</h3>
+        <p class="meta">2016</p>
+        <p class="desc">Master en ingénierie des logiciels, USDB, Université de Blida (Algérie).</p>
+        <p class="meta" style="margin-top:16px">Langues</p>
+        <p class="desc" style="margin-top:4px">Français · Anglais</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Salle 5 -->
+<section id="parcours" class="room">
+  <div class="wrap">
+    <div class="room-head">
+      <span class="room-no" aria-hidden="true">5</span>
+      <div>
+        <p class="eyebrow">Salle 5 · Du plus récent au plus ancien</p>
+        <h2>Galerie Parcours</h2>
+        <p>Cinq œuvres, une par maison.</p>
+      </div>
+    </div>
+    <div class="ribbon" aria-hidden="true"><span>2015</span><span>2018</span><span>2020</span><span>2023</span><span>2026</span></div>
+    <div class="oeuvres">
+
+      <article class="oeuvre">
+        <div class="when"><b>01</b>Juin 2023 – Juin 2026<br>3 ans 1 mois</div>
+        <div class="cartel">
+          <h3>Pilotage des produits structurés<span class="org">Société Générale · Développeur full stack, délégué du tech lead</span></h3>
+          <p class="desc">Calcul du risque et de la rentabilité rapportés aux actifs pondérés (RWA) selon les règles de Bâle 1 et 2, à partir des données réalisées et des prévisions, pour identifier les actifs non rentables ou porteurs d'un risque élevé. Plateforme d'une vingtaine de micro-frontends indépendants et de petits services web REST. Équipe de 5 développeurs, 1 tech lead, 1 PO, 1 testeur ; sprints de 3 semaines, livraison continue, Scrum master tournant.</p>
+          <ul class="points">
+            <li>Délégué du tech lead : animation de l'équipe, analyse et challenge du besoin brut et de l'existant, solutions tenables en coût et en délai.</li>
+            <li>Développement et maintenance du dashboard SRE (RWA) et du reporting.</li>
+            <li>Agrégation de données via les services web internes et calculs métier ; batchs de traitement en masse ; migration de services d'Elasticsearch vers PostgreSQL.</li>
+            <li>Montées de version Java, Angular et Bootstrap ; widgets front conformes au design system de la banque.</li>
+            <li>Monitoring de la production, support niveau 2, suivi des performances applicatives.</li>
+            <li>Études internes pour éclairer les choix technologiques et méthodologiques, sur une base factuelle.</li>
+            <li>Animation des rituels Scrum et des démos.</li>
+            <li>Développement assisté par IA : features codées entièrement par l'IA, skills (brainstormer, TDD implementer…), outils (monitoring de logs, PR reviewer…).</li>
+          </ul>
+          <div class="tags"><span>Java 21 / 25</span><span>Spring Boot</span><span>Angular 15 / 18</span><span>Oracle</span><span>PostgreSQL</span><span>Trino</span><span>Elasticsearch</span><span>Docker</span><span>Claude</span><span>Livraison continue</span></div>
+        </div>
+      </article>
+
+      <article class="oeuvre">
+        <div class="when"><b>02</b>Janv. 2021 – Sept. 2022<br>1 an 9 mois</div>
+        <div class="cartel">
+          <h3>Nexus One<span class="org">EDF · Développeur full stack</span></h3>
+          <p class="desc">Au sein de la DMA, logiciel de gestion des dossiers d'efficacité énergétique, avec workflow utilisateur, pour le département DOM-TOM. Jusqu'à 5 développeurs, 1 PO, 1 testeur ; sprints de 2 semaines, mise en production continue, Scrum master tournant, Jira et Kanban.</p>
+          <ul class="points">
+            <li>Services web REST internes et intégration de services externes (INSEE, SecAvis).</li>
+            <li>Qualité logicielle : TDD, tests automatisés (unitaires, intégration, acceptance, front) et refactoring.</li>
+            <li>Présentation de sujets techniques au sein de la DMA (BBL), démos de fin de sprint auprès des experts métier.</li>
+            <li>Accompagnement de l'équipe métier sur l'expression du besoin.</li>
+          </ul>
+          <div class="tags"><span>Java 8 / 11</span><span>Spring 4</span><span>Angular 11</span><span>PostgreSQL</span><span>Tomcat</span><span>Git</span><span>TDD</span><span>Livraison continue</span></div>
+        </div>
+      </article>
+
+      <article class="oeuvre">
+        <div class="when"><b>03</b>Oct. 2018 – Déc. 2020<br>2 ans 3 mois</div>
+        <div class="cartel">
+          <h3>Multinet Inside et Multinet Souscription<span class="org">Digital Insure · Développeur full stack</span></h3>
+          <p class="desc">Assureur et courtier en assurance emprunteur et prévoyance. Suite logicielle en marque blanche : comparateur pour courtiers et souscription pour assureurs. 2 à 9 développeurs, sprints de 2 à 4 semaines, mise en production continue.</p>
+          <ul class="points">
+            <li>Services web REST et SOAP, interfaces JSF, Vue.js et Angular, mise en place d'OAuth 2 et du SSO entre les applications.</li>
+            <li>Démos auprès des experts métier, encadrement des nouveaux arrivants.</li>
+          </ul>
+          <div class="tags"><span>Java 7 / 11</span><span>Spring</span><span>Angular</span><span>Vue.js</span><span>JSF</span><span>MySQL</span><span>Tomcat</span><span>SVN</span><span>Mentoring</span></div>
+        </div>
+      </article>
+
+      <article class="oeuvre">
+        <div class="when"><b>04</b>Juil. 2016 – Oct. 2018<br>2 ans 4 mois</div>
+        <div class="cartel">
+          <h3>Relation patient-clinique<span class="org">Tiziri · Développeur full stack</span></h3>
+          <p class="desc">Clinique spécialisée en PMA. Solution de gestion de la relation patient-clinique, développée en binôme face à une équipe client allant jusqu'à 20 personnes.</p>
+          <ul class="points">
+            <li>Recueil du besoin, spécifications, nouvelles fonctionnalités (dossier patient, rendez-vous, encaissement des actes), protocoles ASTM.</li>
+            <li>Refactoring, tests unitaires (JUnit, Mockito), déploiement, support et participation à la certification ISO 9001.</li>
+          </ul>
+          <div class="tags"><span>Java 7</span><span>Spring</span><span>JSF</span><span>MySQL</span><span>Tomcat</span><span>SVN</span></div>
+        </div>
+      </article>
+
+      <article class="oeuvre">
+        <div class="when"><b>05</b>Août – Nov. 2015<br>4 mois</div>
+        <div class="cartel">
+          <h3>Application mobile Lkeria<span class="org">DzMob · Développeur full stack</span></h3>
+          <p class="desc">Agence Mobile First iOS et Android. Application mobile hybride du site d'annonces immobilières Lkeria.</p>
+          <ul class="points">
+            <li>Développement JavaScript (Appcelerator Titanium) et services web PHP, tests sur Genymotion et Xcode, coordination sur Trello.</li>
+          </ul>
+          <div class="tags"><span>JavaScript</span><span>Appcelerator Titanium</span><span>PHP</span><span>MySQL</span><span>Android SDK</span><span>iOS SDK</span><span>Git</span></div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- Salle 6 -->
+<section id="boutique" class="room boutique">
+  <div class="wrap">
+    <div class="room-head">
+      <span class="room-no" aria-hidden="true">6</span>
+      <div>
+        <p class="eyebrow">Salle 6</p>
+        <h2>Boutique</h2>
+        <p>On ne repart pas les mains vides : de quoi poursuivre la conversation.</p>
+      </div>
+    </div>
+    <div class="contact">
+      <article class="cartel">
+        <h3>LinkedIn</h3>
+        <p class="meta">Parcours, publications</p>
+        <p class="val"><a href="https://www.linkedin.com/in/assamed-mansouri" target="_blank" rel="noopener">linkedin.com/in/assamed-mansouri</a></p>
+      </article>
+      <article class="cartel">
+        <h3>GitHub</h3>
+        <p class="meta">Katas, skills, expérimentations</p>
+        <p class="val"><a href="https://github.com/LaVloZ" target="_blank" rel="noopener">github.com/LaVloZ</a></p>
+      </article>
+      <article class="cartel">
+        <h3>E-mail</h3>
+        <p class="meta">Pour une mission, un échange, un café</p>
+        <p class="val"><span id="email">mansouri.abdessamed@gmail.com</span><button class="copy" type="button" id="copy-email">Copier</button></p>
+      </article>
+    </div>
+    <p class="exit"><span>Sortie</span><span>Le Musée Mansouri · Abdessamed Mansouri · Développeur full stack</span></p>
+  </div>
+</section>
+
+<script>
+(function () {
+  var btn = document.getElementById('copy-email');
+  var email = document.getElementById('email');
+  if (!btn || !email) return;
+  btn.addEventListener('click', function () {
+    var text = email.textContent;
+    function done(ok) {
+      btn.textContent = ok ? 'Copié' : 'Sélectionné';
+      setTimeout(function () { btn.textContent = 'Copier'; }, 1800);
+    }
+    function select() {
+      try {
+        var r = document.createRange(); r.selectNodeContents(email);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      } catch (e) {}
+      done(false);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, select);
+    } else { select(); }
+  });
+})();
+</script>
+
+</body></html>
